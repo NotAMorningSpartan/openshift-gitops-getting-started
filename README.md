@@ -86,7 +86,7 @@ Now go back to the OpenShift Web Console and click on the **Application Launcher
 
 ![Argo CD - Cluster Config](images/gitops-11.png)
 
-You can also check that a namespace called `spring-petclinic` is created on the cluster.
+You can also check that a namespace called `app-example-spartan` is created on the cluster.
 
 Now that the configuration sync is in place, any changes in the Git repository will be automatically detect by Argo CD and would change the status of the **cluster-configs** to `OutOfSync`, which implies a drift from the desired configuration. One can set the [sync policy to automated](https://argo-cd.readthedocs.io/en/stable/user-guide/auto_sync/) in order for Argo CD to automatically roll out changes form Git repository to the cluster. 
 
@@ -94,13 +94,13 @@ Now that the configuration sync is in place, any changes in the Git repository w
 
 In addition to configuring OpenShift clusters, many teams use GitOps workflows for continuous delivery and deploying applications in multi-cluster Kubernetes environments.
 
-The [app](app/) directory in the current Git repository contains the Kubernetes manifests using Kustomize for deploying the sample Spring PetClinic application. Let's configure Argo CD to automatically and recursively deploy any changes made to these manifests on the OpenShift cluster in the `spring-petclinic` namespace that was created by Argo CD in the previous step.
+The [app](app/) directory in the current Git repository contains the Kubernetes manifests using Kustomize for deploying the sample Spring PetClinic application. Let's configure Argo CD to automatically and recursively deploy any changes made to these manifests on the OpenShift cluster in the `app-example-spartan` namespace that was created by Argo CD in the previous step.
 
 In the Argo CD dashboard, click on the **New App** button to add a new Argo CD application that syncs a Git repository containing cluster configurations with the OpenShift cluster.
 
 Create a new Argo CD application by clicking on the **New App** button in the Argo CD dashboard and entering the following details.
 
-* Application Name: `spring-petclinic`
+* Application Name: `app-example-spartan`
 * Project: `default`
 * Sync Policy: `Automatic`
 * Self-heal: `checked`
@@ -108,7 +108,7 @@ Create a new Argo CD application by clicking on the **New App** button in the Ar
 * Revision: `HEAD`
 * Path: `app`
 * Destination: `https://kubernetes.default.svc`
-* Namespace: `spring-petclinic`
+* Namespace: `app-example-spartan`
 * Directory Recurse: `checked`
 
 > You can also create the Argo CD application by importing the following file:
@@ -116,11 +116,11 @@ Create a new Argo CD application by clicking on the **New App** button in the Ar
 >  oc create -f argo/app.yaml
 >  ```
 
-Because we set up the sync policy to `Automatic`, as soon as the Argo CD application is created, a sync is started in order to rollout the Spring PetClinic manifests to the `spring-petclinic` namespace.
+Because we set up the sync policy to `Automatic`, as soon as the Argo CD application is created, a sync is started in order to rollout the Spring PetClinic manifests to the `app-example-spartan` namespace.
 
 ![Argo CD - Spring PetClinic](images/gitops-15.png)
 
-Click on the **app-spring-petclinic** in the Argo CD dashboard to view the application resources that are deployed to the cluster.
+Click on the **app-app-example-spartan** in the Argo CD dashboard to view the application resources that are deployed to the cluster.
 
 ![Argo CD - Spring PetClinic](images/gitops-14.png)
 
@@ -133,12 +133,12 @@ In oder to modify the Spring PetClinic deployment, all the user needs to do is t
 In addition, Argo CD constantly monitors the state of the deployed applications in order to detect drift and automatically correct it in this example, since we configured the Argo CD application with self-healing. Run the following command to modify the deployment on the cluster and scale it up to 2 pods while watching the application in the OpenShift Web Console:
 
 ```
-oc scale deployment spring-petclinic --replicas 2  -n spring-petclinic
+oc scale deployment app-example-spartan --replicas 2  -n app-example-spartan
 ```
 
 You would notice that the deployment momentarily scales up to 2 pods and immediately scales down again to 1 pod as Argo CD detects a drift from the Git repository and auto-heals the application on the OpenShift cluster. This behavior can be controlled by the [Self-heal](https://argo-cd.readthedocs.io/en/stable/user-guide/auto_sync/#automatic-self-healing) setting.
 
-In Argo CD dashboard, click on the **app-spring-petclinic** and then **App Details** &rarr; **Events**. You can see the event details of Argo CD detecting that the deployment resources is out of sync on the cluster and resyncing the Git repository to correct it.
+In Argo CD dashboard, click on the **app-app-example-spartan** and then **App Details** &rarr; **Events**. You can see the event details of Argo CD detecting that the deployment resources is out of sync on the cluster and resyncing the Git repository to correct it.
 
 ![Argo CD - Events](images/gitops-13.png)
 

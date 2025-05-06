@@ -1,11 +1,11 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: app-spring-petclinic
+  name: app-app-example-spartan
   namespace: openshift-gitops
 spec:
   destination:
-    namespace: spring-petclinic
+    namespace: app-example-spartan
     server: https://kubernetes.default.svc
   project: default
   source:
