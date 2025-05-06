@@ -1,8 +1,8 @@
 kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:
-  name: app-example-spartan
-  namespace: default
+  name: app-example-spartan-pvc
+  namespace: app-example-spartan
 spec:
   accessModes:
   - ReadWriteOnce
