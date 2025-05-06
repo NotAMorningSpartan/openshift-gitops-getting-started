@@ -1,0 +1,12 @@
+apiVersion: console.openshift.io/v1
+kind: ConsoleNotification
+metadata:
+  name: example-notification
+spec:
+  text: This is a pretty cool GitHub you should check out.
+  location: BannerTop 
+  link:
+    href: 'https://github.com/NotAMorningSpartan'
+    text: Optional link text
+  color: '#fff'
+  backgroundColor: '#0088ce'
