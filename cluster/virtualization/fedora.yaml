@@ -18,7 +18,7 @@ spec:
               storage: '32212254720'
           storageClassName: gp3-csi
   instancetype:
-    name: u1.medium
+    name: u1.2xmedium
   preference:
     name: fedora
   runStrategy: Always
