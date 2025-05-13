@@ -4,7 +4,7 @@ metadata:
   name: vm
   namespace: udn-dev
 spec:
-  running: false
+  running: true
   template:
     metadata:
       annotations:
